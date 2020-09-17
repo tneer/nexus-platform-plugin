@@ -55,7 +55,7 @@ class IqPolicyEvaluatorUtil
 
       def iqClient = IqClientFactory.getIqClient(
           new IqClientFactoryConfiguration(credentialsId: iqPolicyEvaluator.jobCredentialsId, context: run.parent,
-              log: loggerBridge), iqPolicyEvaluator.iqServerId)
+              log: loggerBridge))
 
       iqClient.validateServerVersion(MINIMAL_SERVER_VERSION_REQUIRED)
       def verified = iqClient.verifyOrCreateApplication(applicationId)

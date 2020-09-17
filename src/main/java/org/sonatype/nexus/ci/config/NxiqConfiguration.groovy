@@ -45,8 +45,7 @@ class NxiqConfiguration
   String credentialsId
 
   @DataBoundConstructor
-  NxiqConfiguration(final String serverUrl, final String credentialsId)
-  {
+  NxiqConfiguration(final String serverUrl, final String credentialsId) {
     this.serverUrl = serverUrl
     this.credentialsId = credentialsId
   }
@@ -59,6 +58,10 @@ class NxiqConfiguration
   @DataBoundSetter
   void setInternalId(String internalId) {
     this.internalId = internalId
+  }
+
+  String getLabel() {
+    id ? "(${id}) ${serverUrl}" : serverUrl
   }
 
   @Override
@@ -86,7 +89,8 @@ class NxiqConfiguration
 
     @SuppressWarnings('unused')
     ListBoxModel doFillCredentialsIdItems(@QueryParameter String serverUrl,
-                                          @QueryParameter String credentialsId) {
+                                          @QueryParameter String credentialsId)
+    {
       return FormUtil.newCredentialsItemsListBoxModel(serverUrl, credentialsId, null)
     }
 

@@ -38,7 +38,16 @@ class IqUtil
     if (GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs?.size() == 1) {
       return GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs.get(0)
     }
-    GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs?.find {it.id == iqServerId }
+
+    GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs?.find { NxiqConfiguration cfg ->
+      if (iqServerId) {
+        cfg.id == iqServerId
+      }
+      else {
+        cfg.id == null || cfg.id == ''
+      }
+    }
+
   }
 
   /**
@@ -55,7 +64,8 @@ class IqUtil
 
   static ListBoxModel doFillIqServerIdItems() {
     if (IqUtil.hasNxiqConfiguration()) {
-      FormUtil.newListBoxModel({ it.id }, { it.id }, GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs)
+      FormUtil.newListBoxModel({ it.label }, { it.id ?: '' },
+          GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs)
     }
     else {
       FormUtil.newListBoxModelWithEmptyOption()

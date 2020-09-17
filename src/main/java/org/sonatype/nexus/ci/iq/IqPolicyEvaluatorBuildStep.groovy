@@ -37,6 +37,8 @@ class IqPolicyEvaluatorBuildStep
     extends Builder
     implements IqPolicyEvaluator, BuildStep
 {
+  public static final String NO_IQ_SERVER_ERR = "No Nexus IQ server with IQ Server ID: "
+
   String iqServerId
 
   String iqStage
@@ -75,6 +77,10 @@ class IqPolicyEvaluatorBuildStep
   @DataBoundSetter
   void setIqServerId(String iqServerId) {
     this.iqServerId = iqServerId
+    NxiqConfiguration nxiqConfiguration = IqUtil.getNxiqConfiguration(this.iqServerId)
+    if (!nxiqConfiguration) {
+      throw new IllegalArgumentException(NO_IQ_SERVER_ERR + iqServerId)
+    }
   }
 
   @Override
