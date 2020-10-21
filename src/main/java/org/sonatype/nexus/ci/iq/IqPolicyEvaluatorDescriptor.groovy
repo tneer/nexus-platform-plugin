@@ -18,9 +18,11 @@ import hudson.util.ListBoxModel
 
 interface IqPolicyEvaluatorDescriptor
 {
+  ListBoxModel doFillIqServerIdItems()
+
   FormValidation doCheckIqStage(String value)
 
-  ListBoxModel doFillIqStageItems(String jobCredentialsId, Job job)
+  ListBoxModel doFillIqStageItems(String jobCredentialsId, Job job, String iqServerId)
 
   FormValidation doCheckScanPattern(String scanPattern)
 
@@ -30,7 +32,7 @@ interface IqPolicyEvaluatorDescriptor
 
   FormValidation doCheckFailBuildOnNetworkError(String value)
 
-  ListBoxModel doFillJobCredentialsIdItems(Job job)
+  ListBoxModel doFillJobCredentialsIdItems(Job job, String iqServerId)
 
   FormValidation doVerifyCredentials(String jobCredentialsId, Job job)
 }

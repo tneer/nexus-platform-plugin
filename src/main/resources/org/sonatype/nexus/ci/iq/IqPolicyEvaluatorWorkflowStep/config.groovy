@@ -12,9 +12,9 @@
  */
 package org.sonatype.nexus.ci.iq.IqPolicyEvaluatorWorkflowStep
 
-import org.sonatype.nexus.ci.config.NxiqConfiguration
 import org.sonatype.nexus.ci.iq.IqApplication
 import org.sonatype.nexus.ci.iq.Messages
+import org.sonatype.nexus.ci.util.IqUtil
 
 import jenkins.model.Jenkins
 
@@ -22,12 +22,10 @@ def f = namespace(lib.FormTagLib)
 def c = namespace(lib.CredentialsTagLib)
 def l = namespace(lib.LayoutTagLib)
 
-def nxiqConfiguration = NxiqConfiguration.iqConfig
-
 l.css(src: "${rootURL}/plugin/nexus-jenkins-plugin/css/nexus.css")
 
 f.section(title: descriptor.displayName) {
-  if (!nxiqConfiguration) {
+  if (!IqUtil.hasNxiqConfiguration()) {
     tr {
       td(class: 'setting-leftspace') {
 
@@ -43,6 +41,10 @@ f.section(title: descriptor.displayName) {
         }
       }
     }
+  }
+
+  f.entry(title: 'IQ Server ID', field: 'iqServerId') {
+    f.select()
   }
 
   f.entry(title: _(Messages.IqPolicyEvaluation_Stage()), field: 'iqStage') {

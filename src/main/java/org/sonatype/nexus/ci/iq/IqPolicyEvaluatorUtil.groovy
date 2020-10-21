@@ -82,7 +82,8 @@ class IqPolicyEvaluatorUtil
       File workDirectory = new File(workspace.getRemote())
       def evaluationResult = iqClient.evaluateApplication(applicationId, iqStage, scanResult, workDirectory)
 
-      def healthAction = new PolicyEvaluationHealthAction(applicationId, iqStage, run, evaluationResult)
+      def healthAction = new PolicyEvaluationHealthAction(iqPolicyEvaluator.iqServerId, applicationId, iqStage, run,
+          evaluationResult)
       run.addAction(healthAction)
 
       def reportAction = new PolicyEvaluationReportAction(applicationId, iqStage, run, evaluationResult)

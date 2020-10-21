@@ -1,5 +1,6 @@
 .idea/
 target/
 work/
+work.save/
 *.DS_Store
 *.iml

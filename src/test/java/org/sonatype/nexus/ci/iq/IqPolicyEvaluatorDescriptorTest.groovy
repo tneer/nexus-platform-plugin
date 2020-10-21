@@ -174,7 +174,7 @@ abstract class IqPolicyEvaluatorDescriptorTest
       ListBoxModel appList
 
     when:
-      appList = descriptor.doFillApplicationIdItems('', job)
+      appList = descriptor.doFillApplicationIdItems('', job, null)
 
     then:
       appList.size() == 1
@@ -191,7 +191,7 @@ abstract class IqPolicyEvaluatorDescriptorTest
       def job = Mock(Job)
 
     when:
-      descriptor.doFillApplicationIdItems('credentialsId', job)
+      descriptor.doFillApplicationIdItems('credentialsId', job, null)
 
     then:
       // this is a bit odd, but because we're mixing Groovy and Java classes SelectedApplication, we can't
@@ -210,10 +210,10 @@ abstract class IqPolicyEvaluatorDescriptorTest
       def job = Mock(Job)
 
     when:
-      descriptor.doFillIqStageItems('', job)
+      descriptor.doFillIqStageItems('', job, null)
 
     then:
-      1 * IqUtil.doFillIqStageItems('', job)
+      1 * IqUtil.doFillIqStageItems('', job, null)
   }
 
   def 'it uses custom credentials for stage items'() {
@@ -223,23 +223,22 @@ abstract class IqPolicyEvaluatorDescriptorTest
       def job = Mock(Job)
 
     when:
-      descriptor.doFillIqStageItems('credentialsId', job)
+      descriptor.doFillIqStageItems('credentialsId', job, null)
 
     then:
-      1 * IqUtil.doFillIqStageItems('credentialsId', job)
+      1 * IqUtil.doFillIqStageItems('credentialsId', job, null)
   }
 
   def 'it validates that credentials items are filled'() {
     setup:
       def descriptor = getDescriptor()
+      GlobalNexusConfiguration.globalNexusConfiguration.iqConfigs = [new NxiqConfiguration('http://server/path',
+          'credentialsId')]
       GroovyMock(FormUtil, global: true)
-      GroovyMock(NxiqConfiguration, global: true)
-      NxiqConfiguration.serverUrl >> URI.create("http://server/path")
-      NxiqConfiguration.credentialsId >> 'credentialsId'
       def job = Mock(Job)
 
     when:
-      descriptor.doFillJobCredentialsIdItems(job)
+      descriptor.doFillJobCredentialsIdItems(job, null)
 
     then:
       1 * FormUtil.newCredentialsItemsListBoxModel("http://server/path", 'credentialsId', job)
